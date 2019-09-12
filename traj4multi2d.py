@@ -79,6 +79,12 @@ def interp(u0,un,v0,vn,s,x,y):
   if iy>=ny: iy=0
   iy1=iy+1
   if iy1>=ny: iy1=0
+
+  ix = int(ix)
+  iy = int(iy)
+  ix1 = int(ix1)
+  iy1 = int(iy1)
+
   ui=s*np.array([[un[iy,ix],un[iy,ix1]],[un[iy1,ix],un[iy1,ix1]]])+(1-s)*np.array([[u0[iy,ix],u0[iy,ix1]],[u0[iy1,ix],u0[iy1,ix1]]])
   vi=s*np.array([[vn[iy,ix],vn[iy,ix1]],[vn[iy1,ix],vn[iy1,ix1]]])+(1-s)*np.array([[v0[iy,ix],v0[iy,ix1]],[v0[iy1,ix],v0[iy1,ix1]]])
   w=np.array([[(1-sy)*(1-sx),(1-sy)*sx],[sy*(1-sx),sy*sx]])
