@@ -3,6 +3,7 @@
 # python traj4multi2d.py 0 250 48.85 2.35 42.36,-71.06,42.36,-71.06,42.36,-71.06,42.36,-71.06,42.36,-71.06,42.36,-71.06,42.36,-71.06,42.36,-71.06,
 import numpy as np
 import sys
+import os
 #import datetime
 
 pi=np.pi
@@ -23,7 +24,7 @@ sindestlon=np.sin(degrad*destlon)
 
 p=int(sys.argv[2]) #250
 
-fid=open("gfs.time","r");
+fid=open(os.getenv('GFS_NPZ_DATA', "") + "gfs.time","r");
 timestamp=fid.read()[:-1];
 fid.close()
 
@@ -59,7 +60,7 @@ tdat=np.arange(0.0,16.001,0.125)
 #pbot=p_levels[ind]
 #uvnametop="gfs-%04d/uv-%%04d.npz"%p
 #uvnamebot="gfs-%04d/uv-%%04d.npz"%pbot
-uvname="gfs-%04d/uv-%%04d.npz"%p
+uvname=os.getenv('GFS_NPZ_DATA', "") + "gfs-%04d/uv-%%04d.npz"%p
 R_e=6378
 
 nx=len(lon);
