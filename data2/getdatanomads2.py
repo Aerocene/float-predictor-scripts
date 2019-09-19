@@ -1,6 +1,6 @@
 # see license.txt
 # python getdatanomads2.py yyyymmdd tttt
-import sys
+import sys, os
 import numpy as np
 from scipy.io.netcdf import netcdf_file
 import subprocess
@@ -47,6 +47,8 @@ def handle(tau,f0,f1):
         else:
             ul=f0*u[0,lev,:,:]+f1*un[0,lev,:,:]
             vl=f0*v[0,lev,:,:]+f1*vn[0,lev,:,:]
+        if not os.path.exists("gfs-%04d"%pr):
+            os.makedirs("gfs-%04d"%pr)
         np.savez_compressed("gfs-%04d/uv-%04d.npz"%(pr,framenum),u=ul,v=vl)
       
 def ingest(j):
