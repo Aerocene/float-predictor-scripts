@@ -1,11 +1,54 @@
 #!/bin/sh
-cd $HOME/public_html/scripts/data2
+
+# call script with argument 00 or 12
+# $ ./getdata 00
+
+# GFS_SCRIPT_PATH
+# basebath for scripts
+echo GFS_SCRIPT_PATH=$GFS_SCRIPT_PATH
+
+# GFS_NPZ_DATA
+# target path for gfs-data
+echo GFS_NPZ_DATA=$GFS_NPZ_DATA
+
+# GFS_JSON_DATA
+# target path for gfs json wind-data
+echo GFS_JSON_DATA=$GFS_JSON_DATA
+
+echo
+
+if [[ ! -z "${GFS_SCRIPT_PATH}" ]]; then
+  cd $GFS_SCRIPT_PATH
+else
+  cd ~/public_html/scripts/
+fi
+
+if [ ! -d "data2" ]; then
+  echo data2 folder does not exist!
+  exit -1
+fi
+
+
+# enter data2-folder
+cd data2
+
+# log date
 date -u
+
+
 d=`date -u +%Y%m%d`
 python getdatanomads2.py $d $1 || { echo gfs err;exit 1; }
 
-cp -rp gfs.time gfs-* ..
+if [[ ! -z "${GFS_NPZ_DATA}" ]]; then
+  cp -rp gfs.time gfs-* "${GFS_NPZ_DATA}/"
+else
+  cp -rp gfs.time gfs-* ..
+fi
 
-. $HOME/public_html/scripts/gfs/generate_wind_data.sh
+cd ..
+
+./gfs/generate_wind_data.sh
+
+# log date
 date -u
 # 10.5 +   + 5
