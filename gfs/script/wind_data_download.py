@@ -38,7 +38,7 @@ def generateWindJson(filename, n, mb):
 
 def process(mb):
 	for i in range(0,8*16,8):
-		filename = basepath + "gfs-" + str(mb).zfill(4) + "/"+"uv-"+str(i).zfill(4)+".npz";
+		filename = os.path.join(basepath, "gfs-" + str(mb).zfill(4) + "/"+"uv-"+str(i).zfill(4)+".npz");
 		print(filename);
 		generateWindJson(filename, i, mb);
 		

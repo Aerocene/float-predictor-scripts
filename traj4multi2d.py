@@ -24,7 +24,7 @@ sindestlon=np.sin(degrad*destlon)
 
 p=int(sys.argv[2]) #250
 
-fid=open(os.getenv('GFS_NPZ_DATA', "") + "gfs.time","r");
+fid=open(os.path.join(os.getenv('GFS_NPZ_DATA', ""), "gfs.time"),"r");
 timestamp=fid.read()[:-1];
 fid.close()
 
@@ -60,7 +60,7 @@ tdat=np.arange(0.0,16.001,0.125)
 #pbot=p_levels[ind]
 #uvnametop="gfs-%04d/uv-%%04d.npz"%p
 #uvnamebot="gfs-%04d/uv-%%04d.npz"%pbot
-uvname=os.getenv('GFS_NPZ_DATA', "") + "gfs-%04d/uv-%%04d.npz"%p
+uvname=os.path.join(os.getenv('GFS_NPZ_DATA', ""), "gfs-%04d/uv-%%04d.npz"%p)
 R_e=6378
 
 nx=len(lon);
