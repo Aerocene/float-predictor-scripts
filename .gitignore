@@ -9,6 +9,7 @@ deploy
 
 # gfs data
 gfs-*
+gfs.time
 
 # tmp grib file
 tmp.grib2
