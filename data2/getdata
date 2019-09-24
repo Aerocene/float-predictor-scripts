@@ -3,6 +3,11 @@
 # call script with argument 00 or 12
 # $ ./getdata 00
 
+if [[ -z "${1}" ]]; then
+  echo please prive an argument
+  exit 1
+fi
+
 # GFS_SCRIPT_PATH
 # basebath for scripts
 echo GFS_SCRIPT_PATH=$GFS_SCRIPT_PATH
@@ -40,9 +45,9 @@ d=`date -u +%Y%m%d`
 python getdatanomads2.py $d $1 || { echo gfs err;exit 1; }
 
 if [[ ! -z "${GFS_NPZ_DATA}" ]]; then
-  cp -rp gfs.time gfs-* "${GFS_NPZ_DATA}/"
+  mv -f gfs.time gfs-* "${GFS_NPZ_DATA}/"
 else
-  cp -rp gfs.time gfs-* ..
+  mv -f gfs.time gfs-* ..
 fi
 
 cd ..

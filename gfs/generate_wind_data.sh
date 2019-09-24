@@ -27,9 +27,7 @@ python wind_data_download.py || { echo 'exit';exit 1; }
 rm -rf ../data
 
 if [[ ! -z "${GFS_JSON_DATA}" ]]; then
-  cp -fR data $GFS_JSON_DATA
+  mv -f data $GFS_JSON_DATA
 else
-  cp -fR data ~/public_html/static/data/gfs/
+  mv -f data ~/public_html/static/data/gfs/
 fi
-
-mv data ../
