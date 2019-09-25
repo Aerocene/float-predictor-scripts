@@ -37,12 +37,21 @@ fi
 # enter data2-folder
 cd data2
 
+# check lock file
+if [[ -f .lock ]]; then
+  echo "locked - exit"
+  exit 0
+fi
+
+# set lock
+touch .lock
+
 # log date
 date -u
 
 
 d=`date -u +%Y%m%d`
-python getdatanomads2.py $d $1 || { echo gfs err;exit 1; }
+python getdatanomads2.py $d $1 || { echo gfs err;rm .lock;exit 1; }
 
 if [[ ! -z "${GFS_NPZ_DATA}" ]]; then
   mv -f gfs.time gfs-* "${GFS_NPZ_DATA}/"
@@ -57,3 +66,5 @@ cd ..
 # log date
 date -u
 # 10.5 +   + 5
+
+rm .lock
