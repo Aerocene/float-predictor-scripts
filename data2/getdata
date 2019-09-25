@@ -38,7 +38,7 @@ fi
 cd data2
 
 # check lock file
-if [[ -f .lock ]]; then
+if [ -f .lock ]; then
   echo "locked - exit"
   exit 0
 fi
