@@ -3,7 +3,7 @@
 # call script with argument 00 or 12
 # $ ./getdata 00
 
-if [[ -z "${1}" ]]; then
+if [ -z "${1}" ]; then
   echo please prive an argument
   exit 1
 fi
@@ -22,7 +22,7 @@ echo GFS_JSON_DATA=$GFS_JSON_DATA
 
 echo
 
-if [[ ! -z "${GFS_SCRIPT_PATH}" ]]; then
+if [ ! -z "${GFS_SCRIPT_PATH}" ]; then
   cd $GFS_SCRIPT_PATH
 else
   cd ~/public_html/scripts/
