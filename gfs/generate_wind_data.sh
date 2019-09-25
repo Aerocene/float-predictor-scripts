@@ -6,10 +6,12 @@
 # GFS_JSON_DATA
 # target path for gfs json wind-data
 
+DEFAULT_SCRIPT_DIR="~/public_html/scripts/"
+
 if [ ! -z "${GFS_SCRIPT_PATH}" ]; then
   cd $GFS_SCRIPT_PATH
 else
-  cd ~/public_html/scripts/
+  cd $DEFAULT_SCRIPT_DIR
 fi
 
 cd gfs/script
@@ -27,7 +29,11 @@ python wind_data_download.py || { echo 'exit';exit 1; }
 rm -rf ../data
 
 if [ ! -z "${GFS_JSON_DATA}" ]; then
+  # make sure folder exists
+  mkdir -p $GFS_JSON_DATA
   mv -f data $GFS_JSON_DATA
 else
+  # make sure folder exists
+  mkdir -p ~/public_html/static/data/gfs/
   mv -f data ~/public_html/static/data/gfs/
 fi

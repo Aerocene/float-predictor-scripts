@@ -22,20 +22,18 @@ echo GFS_JSON_DATA=$GFS_JSON_DATA
 
 echo
 
+DEFAULT_SCRIPT_DIR="~/public_html/scripts/"
+
 if [ ! -z "${GFS_SCRIPT_PATH}" ]; then
   cd $GFS_SCRIPT_PATH
 else
-  cd ~/public_html/scripts/
+  cd $DEFAULT_SCRIPT_DIR
 fi
 
 if [ ! -d "data2" ]; then
-  echo data2 folder does not exist!
+  echo "data2 folder does not exist!"
   exit -1
 fi
-
-
-# enter data2-folder
-cd data2
 
 # check lock file
 if [ -f .lock ]; then
@@ -46,17 +44,31 @@ fi
 # set lock
 touch .lock
 
+# enter data2-folder
+cd data2
+
 # log date
 date -u
 
-
+# get date
 d=`date -u +%Y%m%d`
 
 if [ "$#" -gt 1 ]; then
   d=$2
 fi
 
-python getdatanomads2.py $d $1 || { echo gfs err;rm .lock;exit 1; }
+python getdatanomads2.py $d $1 || {
+  echo gfs err;
+  # remove .lock from correct directory
+  if [ ! -z "${GFS_SCRIPT_PATH}" ]; then
+    cd $GFS_SCRIPT_PATH
+  else
+    cd $DEFAULT_SCRIPT_DIR
+  fi
+  rm .lock;
+  #
+  exit 1;
+}
 
 if [ ! -z "${GFS_NPZ_DATA}" ]; then
   mkdir -p ${GFS_NPZ_DATA}
@@ -65,12 +77,13 @@ else
   mv -f gfs.time gfs-* ..
 fi
 
+# leave data2/
 cd ..
 
 ./gfs/generate_wind_data.sh
 
 # log date
 date -u
-# 10.5 +   + 5
 
+# remove lock
 rm .lock
