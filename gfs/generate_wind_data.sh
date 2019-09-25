@@ -6,7 +6,7 @@
 # GFS_JSON_DATA
 # target path for gfs json wind-data
 
-if [[ ! -z "${GFS_SCRIPT_PATH}" ]]; then
+if [ ! -z "${GFS_SCRIPT_PATH}" ]; then
   cd $GFS_SCRIPT_PATH
 else
   cd ~/public_html/scripts/
@@ -26,7 +26,7 @@ mkdir data/1000
 python wind_data_download.py || { echo 'exit';exit 1; }
 rm -rf ../data
 
-if [[ ! -z "${GFS_JSON_DATA}" ]]; then
+if [ ! -z "${GFS_JSON_DATA}" ]; then
   mv -f data $GFS_JSON_DATA
 else
   mv -f data ~/public_html/static/data/gfs/
