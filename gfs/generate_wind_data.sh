@@ -25,15 +25,17 @@ mkdir data/500
 mkdir data/850
 mkdir data/1000
 
-python wind_data_download.py || { echo 'exit';exit 1; }
-rm -rf ../data
+python wind_data_download.py || { echo 'exit'; exit 1; }
 
 if [ ! -z "${GFS_JSON_DATA}" ]; then
   # make sure folder exists
   mkdir -p $GFS_JSON_DATA
-  mv -f data $GFS_JSON_DATA
+  cp -rfp data $GFS_JSON_DATA
 else
   # make sure folder exists
   mkdir -p ~/public_html/static/data/gfs/
-  mv -f data ~/public_html/static/data/gfs/
+  cp -rfp data ~/public_html/static/data/gfs/
 fi
+
+# cleanup
+rm -rf data

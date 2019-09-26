@@ -72,10 +72,13 @@ python getdatanomads2.py $d $1 || {
 
 if [ ! -z "${GFS_NPZ_DATA}" ]; then
   mkdir -p ${GFS_NPZ_DATA}
-  mv -f gfs.time gfs-* "${GFS_NPZ_DATA}/"
+  cp -rfp gfs.time gfs-* "${GFS_NPZ_DATA}/"
 else
-  mv -f gfs.time gfs-* ..
+  cp -rfp gfs.time gfs-* ..
 fi
+
+# cleanup
+rm -rf gfs.time gfs-*
 
 # leave data2/
 cd ..
