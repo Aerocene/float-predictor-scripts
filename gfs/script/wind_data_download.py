@@ -5,7 +5,11 @@ import os
 import json
 
 
-basepath = os.getenv('GFS_NPZ_DATA', "/home/ubuntu/public_html/scripts/");
+basepath = os.getenv('GFS_NPZ_DATA', "~/public_html/scripts/");
+
+fid=open(os.path.join(basepath, "gfs.time"),"r");
+timestamp=fid.read()[:-1];
+fid.close()
 
 def latLonToXYZ(lat,lon,radius=200):
 	theta=(lon+180)*(math.pi/180)
@@ -34,14 +38,14 @@ def generateWindJson(filename, n, mb):
 		x1,y1,z1=latLonToXYZ(lat+v_wind_values[llat*4][llon*4]*0.2,llon+u_wind_values[llat*4][llon*4]*0.2)
 		data.extend([round(x1-x,2),round(y1-y,2),round(z1-z,2)])
 	with open("data/"+str(mb)+"/"+str(n * 3)+".json", 'w') as outfile:
-		json.dump({'data':data}, outfile, separators=(',',':'))
+		json.dump({'data':data, 'timestamp':timestamp}, outfile, separators=(',',':'))
 
 def process(mb):
 	for i in range(0,8*16,8):
 		filename = os.path.join(basepath, "gfs-" + str(mb).zfill(4) + "/"+"uv-"+str(i).zfill(4)+".npz");
 		print(filename);
 		generateWindJson(filename, i, mb);
-		
+
 try:
 	for i in [10, 30, 100, 250, 500, 850, 1000]:
 		process(i)
