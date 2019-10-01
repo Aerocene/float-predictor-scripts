@@ -7,6 +7,7 @@
 # target path for gfs json wind-data
 
 DEFAULT_SCRIPT_DIR="~/public_html/scripts/"
+DEFAULT_SCRIPT_TARGET="~/public_html/static/data/gfs/"
 
 if [ ! -z "${GFS_SCRIPT_PATH}" ]; then
   cd $GFS_SCRIPT_PATH
@@ -35,15 +36,21 @@ python wind_data_download.py || {
 }
 
 if [ ! -z "${GFS_JSON_DATA}" ]; then
-  # make sure folder exists
-  mkdir -p $GFS_JSON_DATA
-  echo "copy wind-data to ${GFS_JSON_DATA}"
-  cp -rfp data $GFS_JSON_DATA
+
+  # split by ":"
+  IFS=':' read -ra PATHS <<< "$GFS_JSON_DATA"
+  for path in "${PATHS[@]}"; do
+    # make sure folder exists
+    mkdir -p $path
+    echo "copy wind-data to ${path}"
+    cp -rfp data $path
+  done
+
 else
   # make sure folder exists
-  mkdir -p ~/public_html/static/data/gfs/
-  echo "copy wind-data to ~/public_html/static/data/gfs/"
-  cp -rfp data ~/public_html/static/data/gfs/
+  mkdir -p $DEFAULT_SCRIPT_TARGET
+  echo "copy wind-data to ${DEFAULT_SCRIPT_TARGET}"
+  cp -rfp data $DEFAULT_SCRIPT_TARGET
 fi
 
 # cleanup
